@@ -3,7 +3,7 @@ name: Build and Upload geth Binary
 on:
   push:
     branches:
-      - feat/main
+      - main
 
 permissions:
   id-token: write
@@ -12,7 +12,7 @@ permissions:
   actions: write
 
 env:
-  NUM_INTERNAL_BINARIES_TO_KEEP: 51
+  NUM_INTERNAL_BINARIES_TO_KEEP: 50
   NUM_PUBLIC_BINARIES_TO_KEEP: 400
 
 jobs:
