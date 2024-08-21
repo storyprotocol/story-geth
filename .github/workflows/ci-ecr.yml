@@ -43,7 +43,7 @@ jobs:
           echo "VERSION=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
           echo "BUILDNUM=$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
 
-      - name: Login to Amaon ECR
+      - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
