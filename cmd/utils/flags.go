@@ -622,6 +622,11 @@ var (
 		Usage:    "iliad test network: pre-configured proof-of-stake test network",
 		Category: flags.MiscCategory,
 	}
+	DevnetFlag = &cli.BoolFlag{
+		Name:     "devnet",
+		Usage:    "devnet test network: pre-configured devnet proof-of-stake test network",
+		Category: flags.MiscCategory,
+	}
 	LocalFlag = &cli.BoolFlag{
 		Name:     "local",
 		Usage:    "local test network: pre-configured local proof-of-stake test network",
@@ -978,6 +983,7 @@ var (
 		SepoliaFlag,
 		HoleskyFlag,
 		IliadFlag,
+		DevnetFlag,
 		LocalFlag,
 	}
 	// NetworkFlags is the flag group of all built-in supported networks.
@@ -1010,6 +1016,9 @@ func MakeDataDir(ctx *cli.Context) string {
 		}
 		if ctx.Bool(IliadFlag.Name) {
 			return filepath.Join(path, "iliad")
+		}
+		if ctx.Bool(DevnetFlag.Name) {
+			return filepath.Join(path, "devnet")
 		}
 		if ctx.Bool(LocalFlag.Name) {
 			return filepath.Join(path, "local")
@@ -1078,6 +1087,8 @@ func setBootstrapNodes(ctx *cli.Context, cfg *p2p.Config) {
 			urls = params.GoerliBootnodes
 		case ctx.Bool(IliadFlag.Name):
 			urls = params.IliadBootnodes
+		case ctx.Bool(DevnetFlag.Name):
+			urls = params.DevnetBootnodes
 		case ctx.Bool(LocalFlag.Name):
 			urls = params.LocalBootnodes
 		}
@@ -1513,6 +1524,8 @@ func SetDataDir(ctx *cli.Context, cfg *node.Config) {
 		cfg.DataDir = filepath.Join(node.DefaultDataDir(), "holesky")
 	case ctx.Bool(IliadFlag.Name) && cfg.DataDir == node.DefaultDataDir():
 		cfg.DataDir = filepath.Join(node.DefaultDataDir(), "iliad")
+	case ctx.Bool(DevnetFlag.Name) && cfg.DataDir == node.DefaultDataDir():
+		cfg.DataDir = filepath.Join(node.DefaultDataDir(), "devnet")
 	case ctx.Bool(LocalFlag.Name) && cfg.DataDir == node.DefaultDataDir():
 		cfg.DataDir = filepath.Join(node.DefaultDataDir(), "local")
 	}
@@ -1670,7 +1683,7 @@ func CheckExclusive(ctx *cli.Context, args ...interface{}) {
 // SetEthConfig applies eth-related command line flags to the config.
 func SetEthConfig(ctx *cli.Context, stack *node.Node, cfg *ethconfig.Config) {
 	// Avoid conflicting network flags
-	CheckExclusive(ctx, MainnetFlag, DeveloperFlag, GoerliFlag, SepoliaFlag, HoleskyFlag, IliadFlag, LocalFlag)
+	CheckExclusive(ctx, MainnetFlag, DeveloperFlag, GoerliFlag, SepoliaFlag, HoleskyFlag, IliadFlag, DevnetFlag, LocalFlag)
 	CheckExclusive(ctx, DeveloperFlag, ExternalSignerFlag) // Can't use both ephemeral unlocked and external signer
 
 	// Set configurations from CLI flags
@@ -1847,10 +1860,16 @@ func SetEthConfig(ctx *cli.Context, stack *node.Node, cfg *ethconfig.Config) {
 		SetDNSDiscoveryDefaults(cfg, params.GoerliGenesisHash)
 	case ctx.Bool(IliadFlag.Name):
 		if !ctx.IsSet(NetworkIdFlag.Name) {
-			cfg.NetworkId = 1723078116
+			cfg.NetworkId = 1513
 		}
 		cfg.Genesis = core.DefaultIliadGenesisBlock()
 		SetDNSDiscoveryDefaults(cfg, params.IliadGenesisHash)
+	case ctx.Bool(DevnetFlag.Name):
+		if !ctx.IsSet(NetworkIdFlag.Name) {
+			cfg.NetworkId = 1723078116
+		}
+		cfg.Genesis = core.DefaultDevnetGenesisBlock()
+		SetDNSDiscoveryDefaults(cfg, params.DevnetGenesisHash)
 	case ctx.Bool(LocalFlag.Name):
 		if !ctx.IsSet(NetworkIdFlag.Name) {
 			cfg.NetworkId = 1511

@@ -413,6 +413,8 @@ func (g *Genesis) configOrDefault(ghash common.Hash) *params.ChainConfig {
 		return params.GoerliChainConfig
 	case ghash == params.IliadGenesisHash:
 		return params.IliadChainConfig
+	case ghash == params.DevnetGenesisHash:
+		return params.DevnetChainConfig
 	case ghash == params.LocalGenesisHash:
 		return params.LocalChainConfig
 	default:
@@ -590,6 +592,18 @@ func DefaultIliadGenesisBlock() *Genesis {
 	}
 }
 
+// DefaultIliadGenesisBlock returns the iliad network genesis block.
+func DefaultDevnetGenesisBlock() *Genesis {
+	return &Genesis{
+		Config:     params.DevnetChainConfig,
+		Difficulty: big.NewInt(0x20000),
+		GasLimit:   0x7A1200,
+		Nonce:      0x42,
+		Timestamp:  0,
+		Alloc:      decodePrealloc(devnetAllocData),
+	}
+}
+
 // DefaultLocalGenesisBlock returns the network genesis block for local testing.
 func DefaultLocalGenesisBlock() *Genesis {
 	return &Genesis{
@@ -601,7 +615,6 @@ func DefaultLocalGenesisBlock() *Genesis {
 		Alloc:      decodePrealloc(localAllocData),
 	}
 }
-
 
 // DeveloperGenesisBlock returns the 'geth --dev' genesis block.
 func DeveloperGenesisBlock(gasLimit uint64, faucet *common.Address) *Genesis {
