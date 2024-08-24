@@ -622,6 +622,11 @@ var (
 		Usage:    "iliad test network: pre-configured proof-of-stake test network",
 		Category: flags.MiscCategory,
 	}
+	DevnetFlag = &cli.BoolFlag{
+		Name:     "devnet",
+		Usage:    "devnet test network: pre-configured devnet proof-of-stake test network",
+		Category: flags.MiscCategory,
+	}
 	LocalFlag = &cli.BoolFlag{
 		Name:     "local",
 		Usage:    "local test network: pre-configured local proof-of-stake test network",
@@ -978,6 +983,7 @@ var (
 		SepoliaFlag,
 		HoleskyFlag,
 		IliadFlag,
+		DevnetFlag,
 		LocalFlag,
 	}
 	// NetworkFlags is the flag group of all built-in supported networks.
@@ -1010,6 +1016,9 @@ func MakeDataDir(ctx *cli.Context) string {
 		}
 		if ctx.Bool(IliadFlag.Name) {
 			return filepath.Join(path, "iliad")
+		}
+		if ctx.Bool(DevnetFlag.Name) {
+			return filepath.Join(path, "devnet")
 		}
 		if ctx.Bool(LocalFlag.Name) {
 			return filepath.Join(path, "local")
@@ -1847,7 +1856,7 @@ func SetEthConfig(ctx *cli.Context, stack *node.Node, cfg *ethconfig.Config) {
 		SetDNSDiscoveryDefaults(cfg, params.GoerliGenesisHash)
 	case ctx.Bool(IliadFlag.Name):
 		if !ctx.IsSet(NetworkIdFlag.Name) {
-			cfg.NetworkId = 1723078116
+			cfg.NetworkId = 1513
 		}
 		cfg.Genesis = core.DefaultIliadGenesisBlock()
 		SetDNSDiscoveryDefaults(cfg, params.IliadGenesisHash)
