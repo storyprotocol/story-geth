@@ -50,12 +50,6 @@ var SepoliaBootnodes = []string{
 // LocalBootnodes are the enode URLs of the P2P bootstrap nodes running on the local network.
 var LocalBootnodes = []string{}
 
-// IliadBootnodes are the enode URLs of the P2P bootstrap nodes running on the devnet.
-var DevnetBootnodes = []string{
-	"enode://5e85033276299eff126d0c86a42b76cbad98920b4f77ae894b8a52daffa558f36de1281beca96b71e67795955bf769ce6ab3e35af66790816b37ada3d9c2b09a@52.9.220.233:30303",
-	"enode://7f7685f85a6cfbdb5342ef977ae9d1c82dae4fa8d0f3b141c0c1bb86a01bbc7ac081aa336ff9b341b751f756d388ac4eabbd810e548b52dfb835de0c844bd8b9@54.241.155.73:30303",
-}
-
 // IliadBootnodes are the enode URLs of the P2P bootstrap nodes running on the
 // Iliad test network.
 var IliadBootnodes = []string{

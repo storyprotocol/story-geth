@@ -209,7 +209,6 @@ func TestGenesisHashes(t *testing.T) {
 		{DefaultGoerliGenesisBlock(), params.GoerliGenesisHash},
 		{DefaultSepoliaGenesisBlock(), params.SepoliaGenesisHash},
 		{DefaultIliadGenesisBlock(), params.IliadGenesisHash},
-		{DefaultDevnetGenesisBlock(), params.DevnetGenesisHash},
 		{DefaultLocalGenesisBlock(), params.LocalGenesisHash},
 	} {
 		// Test via MustCommit

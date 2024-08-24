@@ -1087,8 +1087,6 @@ func setBootstrapNodes(ctx *cli.Context, cfg *p2p.Config) {
 			urls = params.GoerliBootnodes
 		case ctx.Bool(IliadFlag.Name):
 			urls = params.IliadBootnodes
-		case ctx.Bool(DevnetFlag.Name):
-			urls = params.DevnetBootnodes
 		case ctx.Bool(LocalFlag.Name):
 			urls = params.LocalBootnodes
 		}
@@ -1524,8 +1522,6 @@ func SetDataDir(ctx *cli.Context, cfg *node.Config) {
 		cfg.DataDir = filepath.Join(node.DefaultDataDir(), "holesky")
 	case ctx.Bool(IliadFlag.Name) && cfg.DataDir == node.DefaultDataDir():
 		cfg.DataDir = filepath.Join(node.DefaultDataDir(), "iliad")
-	case ctx.Bool(DevnetFlag.Name) && cfg.DataDir == node.DefaultDataDir():
-		cfg.DataDir = filepath.Join(node.DefaultDataDir(), "devnet")
 	case ctx.Bool(LocalFlag.Name) && cfg.DataDir == node.DefaultDataDir():
 		cfg.DataDir = filepath.Join(node.DefaultDataDir(), "local")
 	}
@@ -1683,7 +1679,7 @@ func CheckExclusive(ctx *cli.Context, args ...interface{}) {
 // SetEthConfig applies eth-related command line flags to the config.
 func SetEthConfig(ctx *cli.Context, stack *node.Node, cfg *ethconfig.Config) {
 	// Avoid conflicting network flags
-	CheckExclusive(ctx, MainnetFlag, DeveloperFlag, GoerliFlag, SepoliaFlag, HoleskyFlag, IliadFlag, DevnetFlag, LocalFlag)
+	CheckExclusive(ctx, MainnetFlag, DeveloperFlag, GoerliFlag, SepoliaFlag, HoleskyFlag, IliadFlag, LocalFlag)
 	CheckExclusive(ctx, DeveloperFlag, ExternalSignerFlag) // Can't use both ephemeral unlocked and external signer
 
 	// Set configurations from CLI flags
@@ -1864,12 +1860,6 @@ func SetEthConfig(ctx *cli.Context, stack *node.Node, cfg *ethconfig.Config) {
 		}
 		cfg.Genesis = core.DefaultIliadGenesisBlock()
 		SetDNSDiscoveryDefaults(cfg, params.IliadGenesisHash)
-	case ctx.Bool(DevnetFlag.Name):
-		if !ctx.IsSet(NetworkIdFlag.Name) {
-			cfg.NetworkId = 1723078116
-		}
-		cfg.Genesis = core.DefaultDevnetGenesisBlock()
-		SetDNSDiscoveryDefaults(cfg, params.DevnetGenesisHash)
 	case ctx.Bool(LocalFlag.Name):
 		if !ctx.IsSet(NetworkIdFlag.Name) {
 			cfg.NetworkId = 1511
