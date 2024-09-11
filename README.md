@@ -10,7 +10,7 @@ https://pkg.go.dev/badge/github.com/ethereum/go-ethereum
 [![Discord](https://img.shields.io/badge/discord-join%20chat-blue.svg)](https://discord.gg/nthXNEv)
 
 Automated builds are available for stable releases and the unstable master branch. Binary
-archives are published at https://geth.ethereum.org/downloads/.
+archives are published at [Download go-ethereum](https://geth.ethereum.org/downloads).
 
 ## Building the source
 
