@@ -14,12 +14,12 @@ Additional labels for pre-release and build metadata are available as extensions
 
 Added `clef_New` to the internal API callable from a UI.
 
-> `New` creates a new password protected Account. The private key is protected with
-> the given password. Users are responsible to backup the private key that is stored
+> `New` creates a new password-protected Account. The private key is protected by
+> the given password. Users are responsible for backup the private key that is stored
 > in the keystore location that was specified when this API was created.
 > This method is the same as New on the external API, the difference being that
 > this implementation does not ask for confirmation, since it's initiated by
-> the user
+> the user.
 
 ### 7.0.0
 

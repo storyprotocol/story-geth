@@ -29,8 +29,8 @@ SUPPORTED ALGORITHMS
                                            SHA-384
         ELLIPTIC CURVE                     SHA-512
              P256
-             P384		    KEY DERIVATION FUNCTION
-             P521	       NIST SP 800-65a Concatenation KDF
+             P384		     KEY DERIVATION FUNCTION
+             P521	       NIST SP 800-56a Concatenation KDF
 
 Curve P224 isn't supported because it does not provide a minimum security
 level of AES128 with HMAC-SHA1. According to NIST SP 800-57, the security
@@ -55,7 +55,7 @@ According to NIST SP 800-57, the following curves should be selected:
 
 TODO
 
-1. Look at serialising the parameters with the SEC 1 ASN.1 module.
+1. Look at serializing the parameters with the SEC 1 ASN.1 module.
 2. Validate ASN.1 formats with SEC 1.
 
 

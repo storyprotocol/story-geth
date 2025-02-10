@@ -16,7 +16,7 @@ This is a post-mortem concerning the minority split that occurred on Ethereum ma
 
 ###  2021-08-17 RETURNDATA corruption via datacopy
 
-On 2021-08-17, Guido Vranken submitted a report to bounty@ethereum.org. This coincided with a geth-meetup in Berlin, so the geth team could fairly quickly analyse the issue. 
+On 2021-08-17, Guido Vranken submitted a report to bounty@ethereum.org. This coincided with a Geth meetup in Berlin, so the geth team could fairly quickly analyse the issue. 
 
 He submitted a proof of concept which called the `dataCopy` precompile, where the input slice and output slice were overlapping but shifted. Doing a `copy` where the `src` and `dest` overlaps is not a problem in itself, however, the `returnData`slice was _also_ using the same memory as a backing-array.
 
@@ -47,7 +47,7 @@ After the execution of `dataCopy`, we copy the `ret` into the designated memory 
 
 #### Summary
 
-A memory-corruption bug within the EVM can cause a consensus error, where vulnerable nodes obtain a different `stateRoot` when processing a maliciously crafted transaction. This, in turn, would lead to the chain being split: mainnet splitting in two forks.
+A memory corruption vulnerability within the EVM can cause a consensus error, where vulnerable nodes obtain a different `stateRoot` when processing a maliciously crafted transaction. This, in turn, would lead to the chain being split: mainnet splitting in two forks.
 
 #### Handling
 
@@ -56,7 +56,7 @@ On the evening of 17th, we discussed options on how to handle it. We made a stat
 It was decided that in this specific instance, it would be possible to make a public announcement and a patch release: 
 
 - The fix can be made pretty 'generically', e.g. always copying data on input to precompiles. 
-- The flaw is pretty difficult to find, given a generic fix in the call. The attacker needs to figure out that it concerns the precompiles, specifically the datcopy, and that it concerns the `RETURNDATA` buffer rather than the regular memory, and lastly the special circumstances to trigger it (overlapping but shifted input/output). 
+- The flaw is pretty difficult to find, given a generic fix in the call. The attacker needs to figure out that it concerns the precompiles, specifically the datcopy, and that it concerns the `RETURNDATA` buffer rather than the regular memory, and lastly the special circumstances to trigger it (overlapping and shifted input/output slices). 
 
 Since we had merged the removal of `ETH65`, if the entire network were to upgrade, then nodes which have not yet implemented `ETH66` would be cut off from the network. After further discussions, we decided to:
 
@@ -128,8 +128,8 @@ Action point: enable push-based alerts to be sent from the forkmon, to speed up 
 
 ## Links
 
-- [1] https://twitter.com/go_ethereum/status/1428051458763763721
-- [2] https://twitter.com/mhswende/status/1431259601530458112
+- [1] https://x.com/go_ethereum/status/1428051458763763721
+- [2] https://x.com/mhswende/status/1431259601530458112
 
 
 ## Appendix
@@ -147,7 +147,7 @@ recommend downstream/dependent projects to be ready to take actions to
 upgrade to the latest go-ethereum codebase. More information about the
 issue will be disclosed at a later date.
 
-https://twitter.com/go_ethereum/status/1428051458763763721
+https://x.com/go_ethereum/status/1428051458763763721
 
 ```
 ### Patch
